@@ -11,21 +11,18 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
                 .IsInEnum().WithMessage("Product is invalid.");
 
             RuleFor(item => item.Quantity)
-                .GreaterThanOrEqualTo(0).WithMessage("Item quantity must be greater than or equal to 0.");
-
-            RuleFor(item => item.Quantity)
-                .LessThanOrEqualTo(20).WithMessage("Cannot sell more than 20 items of the same product.");
+                .GreaterThan(0)
+                .LessThanOrEqualTo(20)
+                .WithMessage("Item quantity must be greater than 0 and less than or equal to 20.");
 
             RuleFor(item => item.UnitPrice)
                 .GreaterThanOrEqualTo(0).WithMessage("Unit price must be greater than or equal to 0.");
 
             RuleFor(item => item.Discount)
-                .GreaterThanOrEqualTo(0).WithMessage("Discount must be zero or a positive value.");
+                .GreaterThanOrEqualTo(0).WithMessage("Discount must be greater than or equal to 0.");
 
             RuleFor(item => item.TotalAmount)
-                .GreaterThanOrEqualTo(0)
-                .When(item => !item.IsCancelled)
-                .WithMessage("Total amount must be greater than 0 for non-cancelled items.");
+                .GreaterThan(0).WithMessage("Total amount must be greater than 0.");
         }
     }
 }

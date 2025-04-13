@@ -26,8 +26,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
 
             RuleFor(sale => sale.TotalAmount)
                 .GreaterThan(0)
-                .When(sale => !sale.IsCancelled)
-                .WithMessage("Total amount must be greater than 0 if the sale is not cancelled.");
+                .When(sale => sale.Items.Any(i => !i.IsCancelled))
+                .WithMessage("Total amount must be greater than 0 if there are non-cancelled items.");
 
             RuleForEach(sale => sale.Items).SetValidator(new SaleItemValidator());
         }

@@ -4,44 +4,44 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
     /// <summary>
     /// Represents an individual item within a sale, including product, pricing,
-    /// quantity, discount logic, and cancellation status
+    /// quantity, discount logic, and cancellation status.
     /// </summary>
     public class SaleItem
     {
         /// <summary>
-        /// Gets the identifier of the associated sale
+        /// Gets the identifier of the associated sale.
         /// </summary>
-        public Guid SaleId { get; private set; }
+        public Guid SaleId { get; set; }
 
         /// <summary>
-        /// Gets the product associated with the sale item
+        /// Gets the product associated with the sale item.
         /// </summary>
-        public Product Product{ get; private set; }
+        public Product Product{ get; set; }
 
         /// <summary>
-        /// Gets the quantity of the product purchased
+        /// Gets the quantity of the product purchased.
         /// </summary>
-        public int Quantity { get; private set; }
+        public int Quantity { get; set; }
 
         /// <summary>
-        /// Gets the unit price of the product
+        /// Gets the unit price of the product.
         /// </summary>
-        public decimal UnitPrice { get; private set; }
+        public decimal UnitPrice { get; set; }
 
         /// <summary>
-        /// Gets the discount applied to this item based on quantity rules
+        /// Gets the discount applied to this item based on quantity rules.
         /// </summary>
         public decimal Discount { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the item was cancelled
+        /// Gets a value indicating whether the item was cancelled.
         /// </summary>
-        public bool IsCancelled { get; private set; }
+        public bool IsCancelled { get; set; }
 
         /// <summary>
-        /// Gets the total amount for the item after applying discount and cancellation logic
+        /// Gets the total amount for the item after applying discount.
         /// </summary>
-        public decimal TotalAmount => IsCancelled ? 0 : (UnitPrice * Quantity) - Discount;
+        public decimal TotalAmount => (Quantity * UnitPrice) - Discount;
 
         /// <summary>
         /// Initializes a new instance of the sale item with required values and business rules.
@@ -52,25 +52,25 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             Product = product;
             Quantity = quantity;
             UnitPrice = unitPrice;
-            Discount = CalculateDiscount(quantity);
+            Discount = CalculateDiscount(quantity, unitPrice);
             IsCancelled = isCancelled;
             IsMoreThan20Items();
         }
 
         /// <summary>
-        /// Calculates discount based on the quantity of items purchased
+        /// Calculates discount based on the quantity of items purchased.
         /// </summary>
-        private decimal CalculateDiscount(int quantity)
+        private decimal CalculateDiscount(int quantity, decimal unitPrice)
         {
             if (quantity >= 10 && quantity <= 20)
-                return 0.20m;
+                return quantity * unitPrice * 0.20m;
             if (quantity >= 4)
-                return 0.10m;
+                return quantity * unitPrice * 0.10m;
             return 0m;
         }
 
         /// <summary>
-        /// Validates that the quantity of items does not exceed 20
+        /// Validates that the quantity of items does not exceed 20.
         /// </summary>
         public void IsMoreThan20Items()
         {

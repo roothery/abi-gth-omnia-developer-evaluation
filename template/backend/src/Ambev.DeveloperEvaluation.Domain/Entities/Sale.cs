@@ -7,49 +7,49 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
     /// <summary>
     /// Represents a customer sale including items, customer and branch information,
-    /// as well as cancellation status and validation logic
+    /// as well as cancellation status and validation logic.
     /// </summary>
     public class Sale : BaseEntity
     {
         /// <summary>
-        /// Gets the unique identifier for the sale
+        /// Gets the unique identifier for the sale.
         /// </summary>
-        public string SaleNumber { get; private set; } = String.Empty;
+        public string SaleNumber { get; set; } = String.Empty;
 
         /// <summary>
-        /// Gets the date the sale was created
+        /// Gets the date the sale was created.
         /// </summary>
-        public DateTime SaleDate { get; private set; }
+        public DateTime SaleDate { get; set; }
 
         /// <summary>
-        /// Gets the customer associated with the sale
+        /// Gets the customer associated with the sale.
         /// </summary>
-        public Customer Customer { get; private set; }
+        public Customer Customer { get; set; }
 
         /// <summary>
-        /// Gets the branch where the sale was made
+        /// Gets the branch where the sale was made.
         /// </summary>
-        public Branch Branch { get; private set; }
+        public Branch Branch { get; set; }
 
         /// <summary>
-        /// Gets the list of items included in the sale
+        /// Gets the list of items included in the sale.
         /// </summary>
-        public List<SaleItem> Items { get; private set; } = new();
+        public List<SaleItem> Items { get; set; } = new();
 
         /// <summary>
-        /// Gets a value indicating whether the sale was cancelled
+        /// Gets a value indicating whether the sale was cancelled.
         /// </summary>
-        public bool IsCancelled { get; private set; }
+        public bool IsCancelled { get; set; }
 
         /// <summary>
         /// Gets the total monetary amount of the sale,
-        /// excluding items if the sale is cancelled
+        /// excluding items if the sale is cancelled.
         /// </summary>
-        public decimal TotalAmount => IsCancelled ? 0 : Items.Sum(i => i.TotalAmount);
+        public decimal TotalAmount => Items.Where(i => !i.IsCancelled).Sum(i => i.TotalAmount);
 
         /// <summary>
         /// Initializes a new instance of the sale,
-        /// setting the sale date to the current time and validating the instance
+        /// setting the sale date to the current time and validating the instance.
         /// </summary>
         public Sale()
         {
@@ -58,7 +58,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         }
 
         /// <summary>
-        /// Performs validation of the sale entity using the SaleValidator rules
+        /// Performs validation of the sale entity using the SaleValidator rules.
         /// </summary>
         /// <returns>
         /// A <see cref="ValidationResultDetail" /> containing:
@@ -85,7 +85,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         }
 
         /// <summary>
-        /// Cancels the sale
+        /// Cancels the sale.
         /// </summary>
         public void Cancel()
         {
