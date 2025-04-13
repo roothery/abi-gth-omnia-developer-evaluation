@@ -53,5 +53,29 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>True if the sale was successfully deleted, false otherwise.</returns>
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves a sale item by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the sale item to retrieve.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The sale item if found; otherwise, null.</returns>
+        Task<SaleItem?> GetItemByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Updates an existing sale item in the repository.
+        /// </summary>
+        /// <param name="saleItem">The sale item to update.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>A task that represents the asynchronous update operation.</returns>
+        Task UpdateItemAsync(SaleItem saleItem, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Deletes a sale item from the repository.
+        /// </summary>
+        /// <param name="id">The unique identifier of the sale item to be deleted.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>True if the sale item was successfully deleted, false otherwise.</returns>
+        Task<bool> DeleteItemAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

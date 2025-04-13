@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -6,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
     /// Represents an individual item within a sale, including product, pricing,
     /// quantity, discount logic, and cancellation status.
     /// </summary>
-    public class SaleItem
+    public class SaleItem : BaseEntity
     {
         /// <summary>
         /// Gets the identifier of the associated sale.
@@ -16,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the product associated with the sale item.
         /// </summary>
-        public Product Product{ get; set; }
+        public Product Product { get; set; }
 
         /// <summary>
         /// Gets the quantity of the product purchased.
