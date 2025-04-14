@@ -8,7 +8,7 @@ using Ambev.DeveloperEvaluation.Common.Security;
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
 /// <summary>
-/// Handler for processing CreateUserCommand requests
+/// Handler for processing CreateUserCommand requests.
 /// </summary>
 public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserResult>
 {
@@ -17,11 +17,11 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     private readonly IPasswordHasher _passwordHasher;
 
     /// <summary>
-    /// Initializes a new instance of CreateUserHandler
+    /// Initializes a new instance of CreateUserHandler.
     /// </summary>
-    /// <param name="userRepository">The user repository</param>
-    /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for CreateUserCommand</param>
+    /// <param name="userRepository">The user repository.</param>
+    /// <param name="mapper">The AutoMapper instance.</param>
+    /// <param name="validator">The validator for CreateUserCommand.</param>
     public CreateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
@@ -30,11 +30,11 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     }
 
     /// <summary>
-    /// Handles the CreateUserCommand request
+    /// Handles the CreateUserCommand request.
     /// </summary>
-    /// <param name="command">The CreateUser command</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The created user details</returns>
+    /// <param name="command">The CreateUser command.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The created user details.</returns>
     public async Task<CreateUserResult> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {
         var validator = new CreateUserCommandValidator();
