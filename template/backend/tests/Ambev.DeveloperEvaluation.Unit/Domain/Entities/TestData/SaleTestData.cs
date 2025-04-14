@@ -24,7 +24,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities.TestData
         private static readonly Faker<Sale> SaleFaker = new Faker<Sale>()
             .CustomInstantiator(f => new Sale())
             .RuleFor(s => s.Id, f => f.Random.Guid())
-            .RuleFor(s => s.SaleNumber, f => f.Random.String2(5, 20))
+            .RuleFor(s => s.SaleNumber, f => f.Random.AlphaNumeric(f.Random.Int(5, 20)))
             .RuleFor(s => s.SaleDate, f => f.Date.Past())
             .RuleFor(s => s.Customer, f => f.PickRandom<Customer>())
             .RuleFor(s => s.Branch, f => f.PickRandom<Branch>())

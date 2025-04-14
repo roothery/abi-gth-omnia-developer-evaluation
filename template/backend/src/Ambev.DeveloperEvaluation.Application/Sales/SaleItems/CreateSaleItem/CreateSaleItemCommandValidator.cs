@@ -16,7 +16,6 @@ namespace Ambev.DeveloperEvaluation.Application.SaleItems.CreateSaleItem
         /// - Product: Must be a valid enum value
         /// - Quantity: Must be greater than 0 and less than or equal to 20
         /// - UnitPrice: Must be greater than or equal to 0
-        /// - TotalAmount: Must be greater than 0
         /// </remarks>
         public CreateSaleItemCommandValidator()
         {

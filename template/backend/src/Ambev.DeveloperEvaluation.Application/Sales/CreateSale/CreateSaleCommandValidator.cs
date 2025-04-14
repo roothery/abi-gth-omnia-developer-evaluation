@@ -18,7 +18,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         /// - Customer: Must be a valid enum value
         /// - Branch: Must be a valid enum value
         /// - Items: At least one item is required
-        /// - TotalAmount: Must be greater than 0 if there are non-cancelled items
         /// - Items: Each item is validated using CreateSaleItemCommandValidator
         /// </remarks>
         public CreateSaleCommandValidator()
