@@ -11,7 +11,7 @@ using Xunit;
 namespace Ambev.DeveloperEvaluation.Unit.Application
 {
     /// <summary>
-    /// Contains unit tests for the CreateSalerHandler.
+    /// Contains unit tests for the CreateSaleHandler.
     /// </summary>
     public class CreateSaleHandlerTests
     {

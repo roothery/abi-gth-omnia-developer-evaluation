@@ -19,7 +19,6 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         /// </summary>
         /// <param name="saleRepository">The sale repository.</param>
         /// <param name="mapper">The AutoMapper instance.</param>
-        /// <param name="validator">The validator for CreateSaleCommand.</param>
         public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
         {
             _saleRepository = saleRepository;
@@ -31,6 +30,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
         /// </summary>
         /// <param name="command">The CreateSale command.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <param name="validator">The validator for CreateSaleCommand.</param>
         /// <returns>The created sale details.</returns>
         public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
         {

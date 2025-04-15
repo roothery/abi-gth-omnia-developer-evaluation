@@ -10,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.TestData
     /// This class centralizes all test data generation to ensure consistency
     /// across test cases and provide both valid and invalid data scenarios.
     /// </summary>
-    public class CreateSaleHandlerTestData
+    public static class CreateSaleHandlerTestData
     {
         /// <summary>
         /// Configures the Faker to generate valid Sale entities.
