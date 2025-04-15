@@ -27,21 +27,21 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale
         /// <summary>
         /// Handles the GetSaleCommand request.
         /// </summary>
-        /// <param name="request">The GetSale request.</param>
+        /// <param name="command">The GetSale request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <param name="validator">The validator for GetSaleCommand.</param>
+        /// <param name="validator">The validator for DeleteSaleCommand.</param>
         /// <returns>The sale and items details.</returns>
-        public async Task<GetSaleResult> Handle(GetSaleCommand request, CancellationToken cancellationToken)
+        public async Task<GetSaleResult> Handle(GetSaleCommand command, CancellationToken cancellationToken)
         {
             var validator = new GetSaleCommandValidator();
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var sale = await _saleRepository.GetByIdAsync(request.Id, cancellationToken);
+            var sale = await _saleRepository.GetByIdAsync(command.Id, cancellationToken);
             if (sale == null)
-                throw new InvalidOperationException($"Sale with ID {request.Id} not found");
+                throw new InvalidOperationException($"Sale with ID {command.Id} not found");
 
             var result = _mapper.Map<GetSaleResult>(sale);
             return result;

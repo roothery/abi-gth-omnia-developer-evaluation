@@ -1,7 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using Ambev.DeveloperEvaluation.Application.Sales.SaleItems.GetSaleItem;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
 using AutoMapper;
@@ -74,7 +72,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
         }
 
         /// <summary>
-        ///     Tests that a non-existing sale id throws an InvalidOperationException.
+        /// Tests that a non-existing sale id throws an InvalidOperationException.
         /// </summary>
         [Fact(DisplayName = "Given non-existing sale id When getting sale Then throws InvalidOperationException")]
         public async Task Handle_NonExistingId_ThrowsInvalidOperationException()
@@ -82,15 +80,13 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             // Given
             var command = GetSaleHandlerTestData.GenerateValidCommand();
 
-            _saleRepository.GetByIdAsync(command.Id, Arg.Any<CancellationToken>())
-                .Returns((Sale)null);
+            _saleRepository.GetByIdAsync(command.Id, Arg.Any<CancellationToken>()).Returns((Sale)null);
 
             // When
             var act = () => _handler.Handle(command, CancellationToken.None);
 
             // Then
-            await act.Should().ThrowAsync<InvalidOperationException>()
-                .WithMessage($"Sale with ID {command.Id} not found");
+            await act.Should().ThrowAsync<InvalidOperationException>().WithMessage($"Sale with ID {command.Id} not found");
         }
     }
 }
