@@ -17,8 +17,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
     /// </summary>
     public class GetSaleHandlerTests
     {
-        private readonly IMapper _mapper;
         private readonly ISaleRepository _saleRepository;
+        private readonly IMapper _mapper;
         private readonly GetSaleHandler _handler;
 
         /// <summary>
@@ -82,7 +82,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
             // Given
             var command = GetSaleHandlerTestData.GenerateValidCommand();
 
-            // Simulate no existing sale found
             _saleRepository.GetByIdAsync(command.Id, Arg.Any<CancellationToken>())
                 .Returns((Sale)null);
 

@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 using Ambev.DeveloperEvaluation.Application.Sales.SaleItems.GetSaleItem;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
@@ -11,29 +11,14 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.TestData
     /// This class centralizes all test data generation to ensure consistency
     /// across test cases and provide both valid and invalid data scenarios.
     /// </summary>
-    public static class GetSaleHandlerTestData
+    public static class GetSalesHandlerTestData
     {
-        /// <summary>
-        /// Configures the Faker to generate valid Sale entities.
-        /// </summary>
-        private static readonly Faker<GetSaleCommand> getSaleHandlerFaker = new Faker<GetSaleCommand>()
-            .RuleFor(c => c.Id, f => f.Random.Guid());
-
-        /// <summary>
-        /// Generates a valid Sale with randomized data.
-        /// </summary>
-        /// <returns>A valid Sale entity with a randomly generated SaleId.</returns>
-        public static GetSaleCommand GenerateValidCommand()
-        {
-            return getSaleHandlerFaker.Generate();
-        }
-
         /// <summary>
         /// Generates a fake Sale with realistic data for testing retrieval,
         /// useful for mocking repository returns.
         /// </summary>
         /// <returns>A Sale with valid random data.</returns>
-        public static Sale GenerateValidFakeSale()
+        public static List<Sale> GenerateValidFakeSales(int quantity = 15)
         {
             var saleFaker = new Faker<Sale>()
                 .RuleFor(s => s.Id, f => f.Random.Guid())
@@ -53,38 +38,38 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.TestData
                     return itemFaker.Generate(3);
                 });
 
-            return saleFaker.Generate();
+            return saleFaker.Generate(quantity);
         }
 
         /// <summary>
-        /// Converts a Sale entity into a GetSaleResult for response formatting,
-        /// useful for testing or mapping in queries.
+        /// Converts a list of Sale entities into a list of GetListSaleResult,
+        /// mapping all relevant properties including items.
         /// </summary>
-        /// <param name="sale">The Sale entity to convert.</param>
-        /// <returns>A GetSaleResult populated with data from the Sale entity.</returns>
-        public static GetSaleResult CreateSaleResult(Sale sale)
+        /// <param name="sales">List of sales to convert.</param>
+        /// <returns>List of mapped GetListSaleResult objects.</returns>
+        public static List<GetSalesResult> GenerateGetSalesResults(List<Sale> sales)
         {
-            return new GetSaleResult
+            return sales.Select(sale => new GetSalesResult
             {
                 Id = sale.Id,
                 SaleNumber = sale.SaleNumber,
                 SaleDate = sale.SaleDate,
                 Customer = sale.Customer,
                 Branch = sale.Branch,
-                Items = sale.Items.Select(i => new GetSaleItemResult
-                {
-                    Id = i.Id,
-                    SaleId = i.SaleId,
-                    Product = i.Product,
-                    Quantity = i.Quantity,
-                    UnitPrice = i.UnitPrice,
-                    Discount = i.Discount,
-                    IsCancelled = i.IsCancelled,
-                    TotalAmount = i.TotalAmount
-                }).ToList(),
                 IsCancelled = sale.IsCancelled,
                 TotalAmount = sale.TotalAmount,
-            };
+                Items = sale.Items.Select(item => new GetSaleItemResult
+                {
+                    Id = item.Id,
+                    SaleId = item.SaleId,
+                    Product = item.Product,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+                    Discount = item.Discount,
+                    IsCancelled = item.IsCancelled,
+                    TotalAmount = item.TotalAmount
+                }).ToList()
+            }).ToList();
         }
     }
 }

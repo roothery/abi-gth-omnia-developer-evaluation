@@ -1,8 +1,11 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+using Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using DomainCommon = Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSales;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +88,38 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Success = true,
                 Message = "Sale retrieved successfully",
                 Data = _mapper.Map<GetSaleResponse>(response)
+            });
+        }
+
+        /// <summary>
+        /// Get a list of sales with optional filters.
+        /// </summary>
+        /// <param name="request">The request with optional filters.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>A list of sales based on filters.</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(ApiResponseWithData<DomainCommon.PaginatedList<GetSalesResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetSales([FromQuery] GetSalesRequest request, CancellationToken cancellationToken)
+        {
+            var command = _mapper.Map<GetSalesCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var saleResults = _mapper.Map<List<GetSalesResponse>>(response.Items);
+
+            var result = new DomainCommon.PaginatedList<GetSalesResponse>
+            {
+                Items = saleResults,
+                Page = response.Page,
+                PageSize = response.PageSize,
+                TotalCount = response.TotalCount
+            };
+
+            return Ok(new ApiResponseWithData<DomainCommon.PaginatedList<GetSalesResponse>>
+            {
+                Success = true,
+                Message = "Sales retrieved successfully",
+                Data = result
             });
         }
     }

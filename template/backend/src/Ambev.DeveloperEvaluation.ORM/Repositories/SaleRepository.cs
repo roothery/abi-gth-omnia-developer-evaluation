@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,6 +65,38 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<IEnumerable<Sale>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Sales.Include(s => s.Items).ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// Retrieves a paginated list of sales from the database with optional filters, sorting, and related items.
+        /// </summary>
+        /// <param name="saleNumber">Optional filter by sale number.</param>
+        /// <param name="isCanceled">Optional filter by cancellation status.</param>
+        /// <param name="branch">Optional filter by branch.</param>
+        /// <param name="customer">Optional filter by customer.</param>
+        /// <param name="startSaleDate">Optional start date for sale date filter.</param>
+        /// <param name="endSaleDate">Optional end date for sale date filter.</param>
+        /// <param name="page">The page number to retrieve.</param>
+        /// <param name="pageSize">The number of records per page.</param>
+        /// <param name="sortBy">The field to sort by.</param>
+        /// <param name="isDesc">Indicates whether sorting should be descending.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>A paged list of sales matching the specified criteria, including related sale items.</returns>
+        public async Task<PaginatedList<Sale>> GetListAsync(string? saleNumber = null, bool? isCanceled = null,
+            Branch? branch = null, Customer? customer = null, DateTime? startSaleDate = null, DateTime? endSaleDate = null,
+            int page = 0, int pageSize = 0, string? sortBy = null, bool isDesc = false, CancellationToken cancellationToken = default)
+        {
+            var query = _context.Sales
+                .Where(x =>
+                    (saleNumber == null || saleNumber == x.SaleNumber)
+                    && (isCanceled == null || isCanceled == x.IsCancelled)
+                    && (branch == null || branch == x.Branch)
+                    && (customer == null || customer == x.Customer)
+                    && (startSaleDate == null || x.SaleDate >= startSaleDate)
+                    && (endSaleDate == null || x.SaleDate <= endSaleDate)
+                ).Include(s => s.Items);
+
+            return await PaginatedList<Sale>.CreateAsync(query, page, pageSize, sortBy, isDesc, cancellationToken);
         }
 
         /// <summary>
