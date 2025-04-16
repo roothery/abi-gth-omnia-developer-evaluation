@@ -1,4 +1,4 @@
-# Project Overview
+# Developer Evaluation Project
 The **Developer Evaluation Project** is a technical assessment aimed at developers, focusing on software architecture, code organization, and API best practices. The challenge consists of implementing a complete **CRUD REST API** to manage sales records, following **Domain-Driven Design (DDD)** principles and patterns such as **external identities with denormalized descriptions**.
 > This section provides an overview of the structure and organization of the project files and directories.
 > See [Project Structure](/.doc/project-structure.md)
