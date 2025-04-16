@@ -8,6 +8,7 @@ using AutoMapper;
 using FluentAssertions;
 using FluentValidation;
 using NSubstitute;
+using Rebus.Bus;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application
@@ -19,13 +20,15 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
     {
         private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
+        private readonly IBus _bus;
         private readonly UpdateSaleHandler _handler;
         
         public UpdateSaleHandlerTests()
         {
             _saleRepository = Substitute.For<ISaleRepository>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new UpdateSaleHandler(_saleRepository, _mapper);
+            _bus = Substitute.For<IBus>();
+            _handler = new UpdateSaleHandler(_saleRepository, _mapper, _bus);
         }
 
         /// <summary>

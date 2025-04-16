@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using FluentAssertions;
 using FluentValidation;
 using NSubstitute;
+using Rebus.Bus;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application
@@ -13,6 +14,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
     public class DeleteSaleHandlerTests
     {
         private readonly ISaleRepository _saleRepository;
+        private readonly IBus _bus;
         private readonly DeleteSaleHandler _handler;
 
         /// <summary>
@@ -22,7 +24,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
         public DeleteSaleHandlerTests()
         {
             _saleRepository = Substitute.For<ISaleRepository>();
-            _handler = new DeleteSaleHandler(_saleRepository);
+            _bus = Substitute.For<IBus>();
+            _handler = new DeleteSaleHandler(_saleRepository, _bus);
         }
 
         /// <summary>

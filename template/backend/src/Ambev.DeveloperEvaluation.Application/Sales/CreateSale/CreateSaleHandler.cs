@@ -1,8 +1,10 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Events;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
+using Rebus.Bus;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
@@ -13,16 +15,18 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
     {
         private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
+        private readonly IBus _bus;
 
         /// <summary>
         /// Initializes a new instance of CreateSaleHandler.
         /// </summary>
         /// <param name="saleRepository">The sale repository.</param>
         /// <param name="mapper">The AutoMapper instance.</param>
-        public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+        public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper, IBus bus)
         {
             _saleRepository = saleRepository;
             _mapper = mapper;
+            _bus = bus;
         }
 
         /// <summary>
@@ -48,6 +52,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             sale.IsCancelled = false;
 
             var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+            await _bus.Publish(new SaleCreated(createdSale.Id, DateTime.UtcNow));
+
             var result = _mapper.Map<CreateSaleResult>(createdSale);
             return result;
         }

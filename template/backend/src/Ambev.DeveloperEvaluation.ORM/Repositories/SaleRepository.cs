@@ -88,7 +88,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             var query = _context.Sales
                 .Where(x =>
-                    (saleNumber == null || saleNumber == x.SaleNumber)
+                    (saleNumber == null || x.SaleNumber.Contains(saleNumber))
                     && (isCanceled == null || isCanceled == x.IsCancelled)
                     && (branch == null || branch == x.Branch)
                     && (customer == null || customer == x.Customer)
