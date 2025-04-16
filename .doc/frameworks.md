@@ -25,8 +25,9 @@ Database:
 - **EF Core**: Entity Framework Core, a lightweight, extensible, and cross-platform version of Entity Framework, used for data access and object-relational mapping.
   - Git: https://github.com/dotnet/efcore
 
-<br>
+---
+
 <div style="display: flex; justify-content: space-between;">
   <a href="./tech-stack.md">Previous: Tech Stack</a>
-  <a href="./general-api.md">Next: General API</a>
+  <a href="./project-config.md">Next: Project Configuration</a>
 </div>

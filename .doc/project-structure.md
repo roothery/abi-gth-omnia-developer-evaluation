@@ -10,3 +10,10 @@ root
 ├── tests/
 └── README.md
 ```
+
+---
+
+<div style="display: flex; justify-content: space-between;">
+  <a href="../README.md">Previous: Read Me</a>
+  <a href="./overview.md">Next: Overview</a>
+</div>

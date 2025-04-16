@@ -27,7 +27,9 @@ Databases:
 - **MongoDB**: A general purpose, document-based, distributed database.
   - Git: https://github.com/mongodb/mongo
 
+---
+
 <div style="display: flex; justify-content: space-between;">
-  <a href="./overview.md">Previous: Tech Stack</a>
+  <a href="./overview.md">Previous: Overview</a>
   <a href="./frameworks.md">Next: Frameworks</a>
 </div>
