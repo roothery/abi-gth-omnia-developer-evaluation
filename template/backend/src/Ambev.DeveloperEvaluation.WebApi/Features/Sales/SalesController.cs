@@ -13,6 +13,8 @@ using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -156,6 +158,38 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Success = true,
                 Message = "Sale updated successfully.",
                 Data = _mapper.Map<UpdateSaleResponse>(result)
+            });
+        }
+
+        /// <summary>
+        /// Cancel a sale.
+        /// </summary>
+        /// <param name="id">The unique identifier of the sale.</param>
+        /// <param name="request">Request to cancel the sale.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The sale number if found</returns>
+        [HttpGet("cancel/{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<CancelSaleResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CancelSale([FromRoute] Guid id, CancellationToken cancellationToken)
+        {
+            var request = new CancelSaleRequest { Id = id };
+
+            var validator = new CancelSaleRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CancelSaleCommand>(request.Id);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(new ApiResponseWithData<CancelSaleResponse>
+            {
+                Success = true,
+                Message = "Sale canceled successfully",
+                Data = _mapper.Map<CancelSaleResponse>(response)
             });
         }
 
