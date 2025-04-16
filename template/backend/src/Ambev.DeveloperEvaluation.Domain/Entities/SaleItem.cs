@@ -59,6 +59,20 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         }
 
         /// <summary>
+        /// Updates the sale item with new values while applying business rules.
+        /// </summary>
+        public void Update(Guid saleId, Product product, int quantity, decimal unitPrice, bool isCancelled = false)
+        {
+            SaleId = saleId;
+            Product = product;
+            Quantity = quantity;
+            UnitPrice = unitPrice;
+            Discount = CalculateDiscount(quantity, unitPrice);
+            IsCancelled = isCancelled;
+            IsMoreThan20Items();
+        }
+
+        /// <summary>
         /// Calculates discount based on the quantity of items purchased.
         /// </summary>
         private decimal CalculateDiscount(int quantity, decimal unitPrice)
